@@ -54,9 +54,12 @@ module-margin-right = 2
 font-0 = fixed:pixelsize=10;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=10;1
+;font-0 = FontAwesome:style=Solid:pixelsize=10:antialias=false;1
+;font-1 = FontAwesome:style=Solid:pixelsize=10:antialias=false;0
+;font-2 = FontAwesome:style=Solid:pixelsize=10:antialias=false;3
 
-modules-left = bspwm i3
-modules-center = mpd
+modules-left = i3
+modules-center = mpd xwindow
 modules-right = filesystem xbacklight alsa pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
 
 tray-position = right
@@ -79,7 +82,7 @@ cursor-scroll = ns-resize
 
 [module/xwindow]
 type = internal/xwindow
-label = %title:0:30:...%
+label = %title:0:50:...%
 
 [module/xkeyboard]
 type = internal/xkeyboard
@@ -242,7 +245,7 @@ ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
 type = internal/network
-interface = wwp0s20f0u3c2
+interface = enp0s31f6
 interval = 3.0
 
 format-connected-underline = #55aa55

@@ -18,11 +18,13 @@
 
 [colors]
 ;background = ${xrdb:color0:#222}
-background = #222
+;background = #222
+background = #aa2F343F
 background-alt = #444
 ;foreground = ${xrdb:color7:#222}
 foreground = #dfdfdf
-foreground-alt = #555
+foreground-alt = #3c6afc
+;foreground-alt = #555
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
@@ -51,16 +53,18 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = fixed:pixelsize=10;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=10;1
-;font-0 = FontAwesome:style=Solid:pixelsize=10:antialias=false;1
-;font-1 = FontAwesome:style=Solid:pixelsize=10:antialias=false;0
-;font-2 = FontAwesome:style=Solid:pixelsize=10:antialias=false;3
+
+
+font-0 = Iosevka:style=bold:size=11.5
+font-1 = FontAwesome:style=Regular:size=12.5
+;font-0 = Hack:style=Regular:size=10
+;font-1 = FontAwesome:style=Regular:pixelsize=13;1
+;font-1 = Siji:style=Regular:pixelsize=14;0
+
 
 modules-left = i3
 modules-center = mpd xwindow
-modules-right = alsa pulseaudio xkeyboard wlan eth battery0 battery1 temperature date powermenu
+modules-right = pulseaudio xkeyboard wlan eth battery0 battery1 temperature date powermenu tray
 
 tray-position = right
 tray-padding = 2
@@ -80,6 +84,13 @@ tray-padding = 2
 cursor-click = pointer
 cursor-scroll = ns-resize
 
+
+[module/iosound]
+type = custom/script
+exec = pavucontrol
+click-left = pavucontrol
+
+
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:50:...%
@@ -90,15 +101,18 @@ blacklist-0 = num lock
 
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-prefix-underline = ${colors.secondary}
+;format-prefix-underline = ${colors.secondary}
 
+;label-layout = %layout% %icon%
 label-layout = %layout%
-label-layout-underline = ${colors.secondary}
+;layout-icon-0=us;U
+;layout-icon-1=ru;R
+;label-layout-underline = ${colors.secondary}
 
 label-indicator-padding = 2
 label-indicator-margin = 1
 label-indicator-background = ${colors.secondary}
-label-indicator-underline = ${colors.secondary}
+;label-indicator-underline = ${colors.secondary}
 
 [module/filesystem]
 type = internal/fs
@@ -159,7 +173,7 @@ label-unfocused-padding = 2
 ; visible = Active workspace on unfocused monitor
 label-visible = %index%
 label-visible-background = ${self.label-focused-background}
-label-visible-underline = ${self.label-focused-underline}
+;label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-focused-padding}
 
 ; urgent = Workspace with urgency hint set
@@ -209,9 +223,10 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = " "
+;format-prefix = " "
+format-prefix = """
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #f90000
+;format-underline = #f90000
 label = %percentage:2%%
 
 [module/memory]
@@ -219,7 +234,7 @@ type = internal/memory
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #4bffdc
+;format-underline = #4bffdc
 label = %percentage_used%%
 
 [module/wlan]
@@ -228,7 +243,7 @@ interface = wlp4s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
-format-connected-underline = #9f78e1
+;format-connected-underline = #9f78e1
 label-connected = %essid%
 
 format-disconnected =
@@ -249,7 +264,7 @@ type = internal/network
 interface = enp0s31f6
 interval = 3.0
 
-format-connected-underline = #55aa55
+;format-connected-underline = #55aa55
 format-connected-prefix = " "
 format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
@@ -262,17 +277,18 @@ format-disconnected =
 
 [module/date]
 type = internal/date
-interval = 5
+interval = 1
 
-date =
-date-alt = " %Y-%m-%d"
+date = "%d.%m.%Y"
+date-alt = "%d.%m.%Y"
 
-time = %H:%M
+
+time = %H:%M:%S
 time-alt = %H:%M:%S
 
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #0a6cf5
+;format-underline = #0a6cf5
 
 label = %date% %time%
 
@@ -285,6 +301,11 @@ label-volume-foreground = ${root.foreground}
 
 label-muted = 🔇 muted
 label-muted-foreground = #666
+
+; Only applies if <ramp-volume> is used
+ramp-volume-0 = 🔈
+ramp-volume-1 = 🔉
+ramp-volume-2 = 🔊
 
 bar-volume-width = 10
 bar-volume-foreground-0 = #55aa55
@@ -338,14 +359,14 @@ adapter = AC
 full-at = 98
 
 format-charging = <animation-charging> <label-charging>
-format-charging-underline = #ffb52a
+;format-charging-underline = #ffb52a
 
 format-discharging = <animation-discharging> <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
 
 format-full-prefix = " "
 format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${self.format-charging-underline}
+;format-full-underline = ${self.format-charging-underline}
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
@@ -371,14 +392,14 @@ adapter = AC
 full-at = 98
 
 format-charging = <animation-charging> <label-charging>
-format-charging-underline = #ffb52a
+;format-charging-underline = #ffb52a
 
 format-discharging = <animation-discharging> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
+;format-discharging-underline = ${self.format-charging-underline}
 
 format-full-prefix = " "
 format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${self.format-charging-underline}
+;format-full-underline = ${self.format-charging-underline}
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
@@ -403,9 +424,9 @@ thermal-zone = 0
 warn-temperature = 60
 
 format = <ramp> <label>
-format-underline = #f50a4d
+;format-underline = #f50a4d
 format-warn = <ramp> <label-warn>
-format-warn-underline = ${self.format-underline}
+;format-warn-underline = ${self.format-underline}
 
 label = %temperature-c%
 label-warn = %temperature-c%

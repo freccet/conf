@@ -90,7 +90,7 @@ floating_modifier $mod
 # start a terminal
 #bindsym $mod+Return exec i3-sensible-terminal
 
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+q kill
@@ -200,14 +200,6 @@ bindsym $mod+grave scratchpad show
 
 for_window [class="Microsoft Teams - Preview" instance="microsoft teams - preview"] floating enable
 
-
-
-
-#bindsym $mod+Shift+t [class="Teams" instance="Teams" title="Microsoft Teams - Preview"] scratchpad show, move position center
-#for_window [class="Teams" instance="Teams" title="Microsoft Teams - Preview"] floating enable, resize set 1545 873, move scratchpad, border pixel 5
-
-#bindsym $mod+Shift+t [class="TelegramDesktop" instance="Telegram" title="Telegram.*$"] scratchpad show, move position center
-#for_window [class="TelegramDesktop" instance="Telegram" title="Telegram.*$"] floating enable, resize set 1545 873, move scratchpad, border pixel 5
 #--	Multi monitors
 #	Work from home
 bindsym $mod+Shift+m exec --no-startup-id "xrandr --output HDMI-1-2 --primary --auto --right-of eDP-1-1"

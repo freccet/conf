@@ -147,6 +147,8 @@ export PATH=$PATH:/usr/local/go/bin
 #	Terrafrom
 alias tf='terraform'
 
+#	DWM
+alias dwminstall='cd ~/larbs/dwm && sudo make clean install'
 # Man pages
 export LESS_TERMCAP_mb=$'\e[1;32m'
 export LESS_TERMCAP_md=$'\e[1;32m'

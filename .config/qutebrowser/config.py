@@ -26,7 +26,15 @@ c.auto_save.session = True
 # Dark Mode
 c.qt.args = [ "blink-settings=darkMode=4" ]
 # Default editor
-c.editor.command = ['/usr/bin/nvim', '{}']
+c.editor.command = ['alacritty', '-e','nvim', '{}']
+
+# Aliases
+c.aliases = {
+    "w": "session-save",
+    "wq": "quit --save",
+    "mpv": "spawn -d mpv --force-window=immediate {url}",
+    "pass": "spawn -d pass -c",
+}
 
 # Bindings
 #config.unbind("<ctrl+0>")
@@ -39,10 +47,8 @@ config.bind("<ctrl+0", "zoom 100")
 config.bind("q","tab-close")
 config.bind("d","scroll-page 0 0.5")
 config.bind("u","scroll-page 0 -0.5")
+config.bind("<Ctrl+y>","spawn -d mpv --force-window=immediate {url}")
 #config.fonts.hints
-
-
-
 
 
 

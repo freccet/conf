@@ -77,11 +77,18 @@ client.placeholder      $color7 $ac $in $ac $ac
 client.background       $ac
 
 #--- Binding keys
+
+# Browser
+bindsym $mod+g exec "qutebrowser"
+
 # Volume
 bindsym XF86AudioRaiseVolume exec amixer -q set Master 2dB+ unmute
 bindsym XF86AudioLowerVolume exec amixer -q set Master 2dB- unmute
 bindsym XF86AudioMute exec amixer -q set Master toggle
 set $mod Mod4
+
+#  Screenshot
+bindsym Print exec gnome-screenshot -i
 
 font pango:monospace 8
 
@@ -150,7 +157,10 @@ bindsym $mod+Shift+b floating toggle
 bindsym $mod+b focus mode_toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
+#bindsym $mod+a focus parent
+
+# Browser
+bindsym $mod+a exec qutebrowser
 
 # focus the child container
 #bindsym $mod+d focus child
@@ -242,6 +252,10 @@ bindsym $mod+r mode "resize"
 
 
 #exec_always --no-startup-id ~/.config/polybar/launch
+
+#	Youtube Fullscreen mode
+bindsym $mod+y fullscreen disable; floating enable; resize set 600 400; move window to position 4300 600
+
 
 #	Locker
 set $Locker i3lock && sleep 1

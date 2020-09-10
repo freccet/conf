@@ -1,8 +1,16 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+export TERMINAL=alacritty
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-
+export PATH=$PATH:/home/frecce/.local/bin/statusbar/
 # Path to your oh-my-zsh installation.
-export ZSH="/home/ek/.oh-my-zsh"
+export ZSH="/home/frecce/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -80,7 +88,7 @@ docker
 git
 debian
 kubectl
-vi-mode
+#vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -135,6 +143,9 @@ alias cdac='cd ~/Projects/actus/ && l'
 
 alias cdc='cd ~/.config'
 
+#	Calendar
+alias cal='cal $(date +%Y) -m'
+
 #	i3 config
 alias vi3='vim ~/.config/i3/config'
 
@@ -146,6 +157,11 @@ export PATH=$PATH:/usr/local/go/bin
 
 #	Terrafrom
 alias tf='terraform'
+
+#	Twitch
+alias keetsune='devour streamlink --player mpv https://www.twitch.tv/keetsune best'
+
+alias dread='devour streamlink --player mpv https://www.twitch.tv/dreadztv best'
 
 #	DWM
 alias dwminstall='cd ~/larbs/dwm && sudo make clean install'
@@ -162,3 +178,7 @@ export LESS_TERMCAP_us=$'\e[1;4;31m'
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Youtube
+alias yt='youtube-viewer'
+# autostart x
+#[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec startx

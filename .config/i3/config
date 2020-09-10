@@ -5,8 +5,6 @@
 
 #  Keyboard Layout
 exec_always "setxkbmap -model pc105 -layout us,ru -variant ,, -option grp:win_space_toggle"
-#	Polybar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 exec --no-startup-id nm-applet
 # 	Compositor
@@ -22,6 +20,9 @@ exec --no-startup-id redshift-gtk
 
 #	Wallpaper
 exec_always --no-startup-id "feh --bg-fill ~/Pictures/wallpaper.jpg"
+
+#	Pulseaudio default headset
+exec --no-startup-id pactl set-default-sink alsa_output.pci-0000_00_1f.3.analog-stereo
 
 # ----------------------------------------------------------------------------------------------------------------------
 # gaps and styling
@@ -79,13 +80,18 @@ client.background       $ac
 #--- Binding keys
 
 # Browser
-bindsym $mod+g exec "qutebrowser"
+bindsym $mod+g exec "firefox"
 
 # Volume
 bindsym XF86AudioRaiseVolume exec amixer -q set Master 2dB+ unmute
 bindsym XF86AudioLowerVolume exec amixer -q set Master 2dB- unmute
 bindsym XF86AudioMute exec amixer -q set Master toggle
+
+bindsym $mod+z exec "alacritty --hold -e pulsemixer"
+
 set $mod Mod4
+
+
 
 #  Screenshot
 bindsym Print exec gnome-screenshot -i
@@ -250,7 +256,8 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-
+# Layout
+bindsym $mod+space exec "pkill -SIGRTMIN+11 i3blocks"
 #exec_always --no-startup-id ~/.config/polybar/launch
 
 #	Youtube Fullscreen mode
@@ -282,13 +289,25 @@ bindsym XF86AudioPlay exec "mpc toggle"
 bindsym XF86AudioStop exec "mpc stop"
 bindsym XF86AudioNext exec "mpc next"
 
+
+#	Polybar
+#exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+
 # i3 Blocks
 
+bar {
+#	font pango:mono 16
+        font pango:DejaVu Sans Mono, Awesome 16
+	status_command i3blocks
+	position top
+	mode dock
+	modifier None
+}
 #bar {
 #  position top
- # status_command SCRIPT_DIR=~/.config/i3blocks i3blocks -c ~/.config/i3blocks/config
-  #status_command 2>/tmp/i3blocks.err SCRIPT_DIR=~/.config/i3blocks i3blocks -vvv -c ~/.config/i3blocks/config | tee /tmp/i3blocks.out
-
+#  status_command SCRIPT_DIR=~/.config/i3blocks i3blocks -c ~/.config/i3blocks/config
+#  status_command 2>/tmp/i3blocks.err SCRIPT_DIR=~/.config/i3blocks i3blocks -vvv -c ~/.config/i3blocks/config | tee /tmp/i3blocks.out
+#
 #}
 
 

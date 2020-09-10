@@ -1,0 +1,4 @@
+setxkbmap -model pc105 -layout us,ru -variant ,, -option grp:win_space_toggle
+feh --bg-fill ~/Pictures/wallpaper.jpg
+redshift
+dwmblocks

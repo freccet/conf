@@ -138,9 +138,6 @@ alias ws='web_search google'
 alias xclip='xclip -selection clipboard'
 
 #  Fast links
-alias cdaz='cd ~/Projects/allianz/ && l'
-alias cdac='cd ~/Projects/actus/ && l'
-
 alias cdc='cd ~/.config'
 
 #	Calendar
@@ -148,9 +145,6 @@ alias cal='cal $(date +%Y) -m'
 
 #	i3 config
 alias vi3='vim ~/.config/i3/config'
-
-#	AZ Token
-alias az-token='cd ~/Projects/allianz/token && ./generate.sh'
 
 #	Go
 export PATH=$PATH:/usr/local/go/bin

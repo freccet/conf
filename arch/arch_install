@@ -1,12 +1,10 @@
+#   Installation Arch Linux script with luks and lvm
+
 timedatectl set-ntp true
 
-PARTED:
-parted /dev/sda
-
-(parted) mkpart "efi" fat32 1MiB 512MiB
-(parted) set 1 esp on
-(parted) print
-(parted) mkpart "arch" ext4 512MiB 100%
+parted /dev/sda mkpart "efi" fat32 1MiB 512MiB
+parted /dev/sda set 1 esp on
+parted /dev/sda mkpart "arch" ext4 512MiB 100%
 
 mkfs.vfat -F32 -n EFI /dev/sda1
 
@@ -15,7 +13,7 @@ cryptsetup luksOpen /dev/sda2 luks
 
 pvcreate /dev/mapper/luks
 vgcreate vg0 /dev/mapper/luks
-lvcreate -s 80G vg0 -n root
+lvcreate -L 80G vg0 -n root
 lvcreate -l +100%FREE vg0 -n home
 
 mkfs.ext4 -L root /dev/mapper/vg0-root
@@ -47,7 +45,7 @@ echo '::1	localhost' >> /etc/hosts
 echo "127.0.1.1	$myhostname.localdomain	$myhostname" >> /etc/hosts
 
 #/etc/mkinitcpio.conf
-HOOKS=(base udev autodetect modconf block keyboard keymap encrypt lvm2 filesystems fsck)
+HOOKS=(base udev keyboard autodetect modconf block keymap encrypt lvm2 filesystems fsck)
 mkinitcpio -P
 
 # Bootloader
@@ -67,4 +65,7 @@ echo "options cryptdevice=UUID=${UUID}:vg0 root=/dev/mapper/vg0-root rw intel_ps
 
 
 passwd
-pacman -S neovim mc ranger sudo xorg-server
+pacman -Sy
+pacman -S mc ranger neovim compton feh zsh sudo code docker curl wget dhcp dmenu rofi firefox htop i3-gaps i3blocks imagemagick mlocate \
+neofetch networkmanager network-manager-applet p7zip pulsemixer polybar pulseaudio redshift xorg-server xorg-xinit zathura \
+unzip lsd nvidia nvidia-utils 

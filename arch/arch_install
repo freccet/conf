@@ -1,0 +1,70 @@
+timedatectl set-ntp true
+
+PARTED:
+parted /dev/sda
+
+(parted) mkpart "efi" fat32 1MiB 512MiB
+(parted) set 1 esp on
+(parted) print
+(parted) mkpart "arch" ext4 512MiB 100%
+
+mkfs.vfat -F32 -n EFI /dev/sda1
+
+cryptsetup luksFormat /dev/sda2
+cryptsetup luksOpen /dev/sda2 luks
+
+pvcreate /dev/mapper/luks
+vgcreate vg0 /dev/mapper/luks
+lvcreate -s 80G vg0 -n root
+lvcreate -l +100%FREE vg0 -n home
+
+mkfs.ext4 -L root /dev/mapper/vg0-root
+mkfs.ext4 -L root /dev/mapper/vg0-home
+
+
+mount /dev/mapper/vg0-root /mnt
+mkdir /mnt/boot /mnt/home
+mount /dev/sda1 /mnt/boot
+mount /dev/mapper/vg0-home /mnt/home
+
+pacstrap /mnt base linux linux-firmware lvm2 intel-ucode
+genfstab -U /mnt >> /mnt/etc/fstab
+echo 'tmpfs /tmp tmpfs defaults,noatime,mode=1777 0 0' >> /mnt/etc/fstab
+
+CHROOT:
+
+arch-chroot /mnt
+ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
+hwclock --systohc
+echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
+locale-gen
+echo 'LANG=en_US.UTF-8' > /etc/locale.conf
+
+myhostname='spb026'
+echo "$myhostname" > /etc/hostname
+echo '127.0.0.1	localhost' > /etc/hosts
+echo '::1	localhost' >> /etc/hosts
+echo "127.0.1.1	$myhostname.localdomain	$myhostname" >> /etc/hosts
+
+#/etc/mkinitcpio.conf
+HOOKS=(base udev autodetect modconf block keyboard keymap encrypt lvm2 filesystems fsck)
+mkinitcpio -P
+
+# Bootloader
+
+bootctl --path=/boot install
+echo 'default arch' > /boot/loader/loader.conf
+echo 'console-mode 1' >> /boot/loader/loader.conf
+echo 'timeout 3' >> /boot/loader/loader.conf
+
+
+UUID=$(blkid | grep crypto_LUKS | sed -r 's/.+UUID="(.+)"?.+/\1/')
+echo 'title Arch Linux' > /boot/loader/entries/arch.conf
+echo 'linux /vmlinuz-linux' >> /boot/loader/entries/arch.conf
+echo 'initrd /intel-ucode.img' >> /boot/loader/entries/arch.conf
+echo 'initrd /initramfs-linux.img' >> /boot/loader/entries/arch.conf
+echo "options cryptdevice=UUID=${UUID}:vg0 root=/dev/mapper/vg0-root rw intel_pstate=no_hwp" >> /boot/loader/entries/arch.conf
+
+
+passwd
+pacman -S neovim mc ranger sudo xorg-server
